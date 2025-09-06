@@ -20,7 +20,6 @@ from .mamba import Mamba
 from .mamba2 import Mamba2
 from .mesa_net import MesaNet
 from .mla import MultiheadLatentAttention
-from .mom import MomAttention
 from .multiscale_retention import MultiScaleRetention
 from .nsa import NativeSparseAttention
 from .path_attn import PaTHAttention
@@ -28,6 +27,7 @@ from .rebased import ReBasedLinearAttention
 from .rodimus import RodimusAttention, SlidingWindowSharedKeyAttention
 from .rwkv6 import RWKV6Attention
 from .rwkv7 import RWKV7Attention
+from .routmem import RoutingMemoryAttention
 
 __all__ = [
     'ABCAttention',
@@ -48,7 +48,6 @@ __all__ = [
     'Mamba',
     'Mamba2',
     'MesaNet',
-    'MomAttention',
     'MultiheadLatentAttention',
     'MultiScaleRetention',
     'NativeSparseAttention',
@@ -58,4 +57,5 @@ __all__ = [
     'RWKV6Attention',
     'RWKV7Attention',
     'SlidingWindowSharedKeyAttention',
+    'RoutingMemoryAttention'
 ]
