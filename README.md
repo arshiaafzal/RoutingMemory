@@ -1,5 +1,16 @@
 <div align="center">
 
+# Routing Memory
+
+You can simply run the Routing Memory under this command:
+
+```sh
+CUDA_VISIBLE_DEVICES=1,2,3,4 NGPU=4  bash train.sh     --job.config_file flame/models/fla.toml     --job.dump_folder exp/routmem-340M-10B/batch32.4gpu     --model.config configs/routmem_340M.json     --model.tokenizer_path fla-hub/gla-1.3B-100B     --optimizer.name AdamW     --optimizer.eps 1e-15     --optimizer.lr 3e-4     --lr_scheduler.warmup_steps 1024     --lr_scheduler.lr_min 0.1     --lr_scheduler.decay_type cosine     --training.batch_size 32     --training.seq_len 2048     --training.gradient_accumulation_steps 1     --training.steps 20480     --training.max_norm 1.0     --training.skip_nan_inf     --training.dataset /home/aarshia/linear_transformer/flash-linear-attention/flame/SlimPajama-627B     --training.dataset_name default     --training.dataset_split train     --training.streaming     --training.num_workers 32     --training.prefetch_factor 2     --training.seed 42     --training.compile     --training.tensor_parallel_degree 1     --training.disable_loss_parallel     --checkpoint.interval 2048     --metrics.log_freq 1
+```
+
+Also, you need to install flame exacty follow the fla guide and all should be so easy! Once installed you can easily add the 340M config file to the configs of flame and then run the above command in flame (all description on how to run a model is in fla repo). Once trained routmem will be superioe to GSA evidently ;) I hope at least it was for me for 340M regieme!
+
+
 # 💥 Flash Linear Attention
 
 [![hf_model](https://img.shields.io/badge/-Models-gray.svg?logo=huggingface&style=flat-square)](https://huggingface.co/fla-hub)  [![Discord](https://img.shields.io/badge/Discord-%235865F2.svg?&logo=discord&logoColor=white&style=flat-square)](https://discord.gg/vDaJTmKNcS)
