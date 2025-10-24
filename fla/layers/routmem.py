@@ -181,31 +181,7 @@ class RoutingMemoryAttention(nn.Module):
             k = self.k_proj(hidden_states)
             v = self.v_proj(hidden_states)
             
-        f = self.f_proj(hidden_states)
-        router = self.r_proj(hidden_states) 
-
-        q = rearrange(q, '... (h d) -> ... h d', d=self.head_k_dim)
-        k = rearrange(k, '... (h d) -> ... h d', d=self.head_k_dim)
-        v = rearrange(v, '... (h d) -> ... h d', d=self.head_v_dim)
-        f = rearrange(f, '... (h m) -> ... h m', m=self.num_slots)
-        router =  rearrange(router, '... (h m) -> ... h m', m=self.num_slots)
-        
-        
-        max_seqlen = max(max_seqlen, 8192)  # Added for RoPE
-        q, k = self.rotary(q, k, seqlen_offset=seqlen_offset, max_seqlen=max_seqlen, cu_seqlens=cu_seqlens)  #Added for RoPE
-
-        if self.feature_map is not None:
-            q, k = map(lambda x: self.feature_map(x), (q, k))
-        v = F.silu(v)
-
-        f = F.logsigmoid(f) / self.gate_logit_normalizer
-        
-        top_k_index = 16
-        gumbels = -torch.empty_like(router).exponential_().log()
-        scores = router + gumbels
-        route_idx = scores.topk(top_k_index, dim=-1).indices
-        s_multihot = torch.zeros_like(router).scatter_(-1, route_idx, 1.0)
-
+       
         
         f = f*s_multihot
         s = (1-f.exp()).to(f.dtype)
